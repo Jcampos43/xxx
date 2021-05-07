@@ -7,7 +7,7 @@ public class Interfaz implements Serializable {
     private int cod_int;
     private String des_int;
     private String url_int;
-    private TipoUsuario tipo_usuario;
+    private TipoUsuario cod_tip_usu;
     
 	public int getCod_int() {
 		return cod_int;
@@ -27,12 +27,11 @@ public class Interfaz implements Serializable {
 	public void setUrl_int(String url_int) {
 		this.url_int = url_int;
 	}
-	public TipoUsuario getTipo_usuario() {
-		return tipo_usuario;
+	public TipoUsuario getCod_tip_usu() {
+		return cod_tip_usu;
 	}
-	public void setTipo_usuario(TipoUsuario tipo_usuario) {
-		this.tipo_usuario = tipo_usuario;
+	public void setCod_tip_usu(TipoUsuario cod_tip_usu) {
+		this.cod_tip_usu = cod_tip_usu;
 	}
-    
     
 }

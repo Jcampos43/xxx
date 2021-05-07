@@ -3,57 +3,51 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable {
     
-    private int codigo;
-	private String user;
-    private String pass;
-    private String nombre;    
-	private String apellidos;    
-    private String foto;
-	private TipoUsuario tipo_usuario;
+    private int cod_usu;
+	private String nom_usu;
+    private String ape_usu;
+    private int dni_usu;    
+	private String pass_usu;    
+	private TipoUsuario tipoUsuario;
 	private Distrito distrito;
 	
+	/*Metodos GETTER Y SETTER*/
 	
-	public int getCodigo() {
-		return codigo;
+	public int getCod_usu() {
+		return cod_usu;
 	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCod_usu(int cod_usu) {
+		this.cod_usu = cod_usu;
 	}
-	public String getUser() {
-		return user;
+	public String getNom_usu() {
+		return nom_usu;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setNom_usu(String nom_usu) {
+		this.nom_usu = nom_usu;
 	}
-	public String getPass() {
-		return pass;
+	public String getApe_usu() {
+		return ape_usu;
 	}
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setApe_usu(String ape_usu) {
+		this.ape_usu = ape_usu;
 	}
-	public String getNombre() {
-		return nombre;
+	public int getDni_usu() {
+		return dni_usu;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setDni_usu(int dni_usu) {
+		this.dni_usu = dni_usu;
 	}
-	public String getApellidos() {
-		return apellidos;
+	public String getPass_usu() {
+		return pass_usu;
 	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setPass_usu(String pass_usu) {
+		this.pass_usu = pass_usu;
 	}
-	public String getFoto() {
-		return foto;
+	public TipoUsuario getTipoUsuario() {
+		return tipoUsuario;
 	}
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-	public TipoUsuario getTipo_usuario() {
-		return tipo_usuario;
-	}
-	public void setTipo_usuario(TipoUsuario tipo_usuario) {
-		this.tipo_usuario = tipo_usuario;
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
 	}
 	public Distrito getDistrito() {
 		return distrito;

@@ -24,14 +24,16 @@ import com.google.gson.Gson;
 public class UsuarioController {
 	
 	private String REST_USUARIO="http://localhost:8090/usuario/";
+	private String REST_INTERFAZ="http://localhost:8090/interfaz/";
 	private String REST_DISTRITO="http://localhost:8090/distrito/listaDistrito/";
 	private String REST_TIPOUSUARIO="http://localhost:8090/tipoUsuario/listaTipoUsuario";
+	
+	   @RequestMapping("/login")
+	    public String index() {
+	        
+	            return "login";
+	    }
 
-	@RequestMapping(value = "/login")
-	public String index() {
-		return "login";
-	}
-		
 	@RequestMapping(value = "/listaUsuarios")
 	public @ResponseBody Map<String,Object> listaUsuarios() {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -74,7 +76,7 @@ public class UsuarioController {
 		return map;
 	}
 	
-	@RequestMapping(value="/saveUsuarios")
+	@RequestMapping(value="/saveUsuario")
 	public @ResponseBody Map<String,Object> save(@RequestBody Usuario bean) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -88,7 +90,7 @@ public class UsuarioController {
 			headers.setContentType(mediaType);
 	    	HttpEntity<String> request = new HttpEntity<String>(dataJson.toString(), headers);
 	    	//
-		    if(bean.getCodigo()==0) {
+		    if(bean.getCod_usu()==0) {
 		    	restTemplate.postForObject(REST_USUARIO+"registraUsuario", request, String.class);
 		    	map.put("dataMensaje",1);
 		    }
@@ -115,6 +117,38 @@ public class UsuarioController {
 		}
 		return map;
 	}
+	
+    @RequestMapping("/iniciarSesion")
+    public @ResponseBody Usuario iniciarSesion(@RequestBody Usuario bean) {
+    	
+    	Usuario users = null;
+    	
+    	
+    	
+    	Map<String,Object> map = new HashMap<String,Object>();
+		try {
+		    RestTemplate restTemplate = new RestTemplate();
+		    //Se trasnforma a json
+			Gson gson = new Gson();
+			String dataJson=  gson.toJson(bean);
+			HttpHeaders headers = new HttpHeaders();
+			MediaType mediaType = new MediaType("application", "json", StandardCharsets.UTF_8);
+			headers.setContentType(mediaType);
+	    	HttpEntity<String> request = new HttpEntity<String>(dataJson.toString(), headers);
+	    	   	
+	    	users = restTemplate.postForObject(REST_USUARIO+"login", request, Usuario.class);
+	    	System.out.println(users);	    	
+	    	map.put("users",users);
+			
+	    	
+	    	
+	    	
+    	}catch (Exception e) {
+    		map.put("dataMensaje",-1);
+			e.printStackTrace();
+		}
+		return users;       
+    }
 }
 
 

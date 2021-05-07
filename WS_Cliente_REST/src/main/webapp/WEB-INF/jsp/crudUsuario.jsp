@@ -54,9 +54,10 @@
 															<th>Codigo</th>
 															<th>Nombre</th>
 															<th>Apellido</th>
-															<th>DNI</th>
-															<th>Sexo</th>
-															<th>Distrito</th>
+															<th>Dni</th>
+															<th>Contraseña</th>															
+															<th>Tipo de Usuario</th>
+															<th>Distrito</th>															
 															<th></th>
 															<th></th>
 														</tr>
@@ -109,9 +110,17 @@
 		                                        </div>
 		                                    </div>
 		                                    <div class="form-group">
-		                                        <label class="col-lg-3 control-label" for="id_reg_sexo">Sexo</label>
+		                                        <label class="col-lg-3 control-label" for="id_reg_sexo">Contraseña</label>
 		                                        <div class="col-lg-5">
-													<input class="form-control" id="idSexo" name="sexo" placeholder="Ingrese Sexo"/>
+													<input class="form-control" id="idPassword" name="password" placeholder="Ingrese Contraseña"/>
+		                                        </div>
+		                                    </div>
+		                                    <div class="form-group">
+		                                        <label class="col-lg-3 control-label" for="id_reg_distrito">Tipo de Usuario</label>
+		                                        <div class="col-lg-5">
+													<select id="idTipoUsuario" name="tipoUsuario" class='form-control'>
+							                                 <option value="-1" >[SELECCIONE]</option>
+							                         </select>
 		                                        </div>
 		                                    </div>
 		                                    <div class="form-group">
@@ -148,22 +157,23 @@
 		$("#id_table_usuario tbody").empty(); 
 		$.getJSON("listaUsuarios",{}, function (response){
 			$.each(response.dataUsuarios, function(index, item){
-				var editar='<button type="button" class="btn btn-success" onclick="editar('+
-																									    item.cod_cli+","+
-																									"'"+item.nom_cli+"',"+
-																									"'"+item.ape_cli+"',"+
-																									"'"+item.dni_cli+"',"+
-																									"'"+item.sexo_cli+"',"+
-																									    item.distrito.cod_dis+')">Editar</button>';
+				var editar='<button type="button" class="btn btn-success" onclick="editar('
+					+item.codigo+","+
+				 "'"+item.password+"',"+
+				 "'"+item.nombre+"',"+
+				 "'"+item.apellidos+"',"+
+				 "'"+item.tipoUsuario.cod_tip_usu+"',"+
+				 "'"+item.distrito.cod_dis+"',"+
+				 "'"+item.dni+')">Editar</button>';
 																													    
-			    var eliminar='<button type="button" class="btn btn-btn-danger" onclick="eliminar('+
-																										item.cod_cli+')">Eliminar</button>';
+			    var eliminar='<button type="button" class="btn btn-btn-danger" onclick="eliminar('+item.cod_cli+')">Eliminar</button>';
 																									    
-				$("#id_table_usuario").append("<tr><td>"+item.cod_cli+"</td>"+
-												  "<td>"+item.nom_cli+"</td>"+
-												  "<td>"+item.ape_cli+"</td>"+
-												  "<td>"+item.dni_cli+"</td>"+
-												  "<td>"+item.sexo_cli+"</td>"+
+				$("#id_table_usuario").append("<tr><td>"+item.cod_usu+"</td>"+
+												  "<td>"+item.nom_usu+"</td>"+
+												  "<td>"+item.ape_usu+"</td>"+
+												  "<td>"+item.dni_usu+"</td>"+
+												  "<td>"+item.pass_usu+"</td>"+
+												  "<td>"+item.tipoUsuario.nom_tip_usu+"</td>"+
 												  "<td>"+item.distrito.nom_dis+"</td>"+
 												  "<td>"+editar+"</td>"+
 												  "<td>"+eliminar+"</td>");
@@ -233,18 +243,20 @@
 					nom=$("#idNombre").val();
 					ape=$("#idApellido").val();
 					dni=$("#idDni").val();
-					sex=$("#idSexo").val();
+					pass=$("#idPassword").val();
+					tipUs=$("#idTipoUsuario").val();
 					dis=$("#idDistrito").val();
 					
 					json=JSON.stringify({
-						cod_cli: cod,
-						nom_cli:nom,
-						ape_cli:ape,
-						dni_cli:dni,
-	   			 		sexo_cli:sex,	   			 		
+						cod_usu: cod,
+						nom_usu:nom,
+						ape_usu:ape,
+						dni_usu:dni,
+						pass_usu:pass,
+						tipoUsuario:{cod_tip_usu:tipUs,nom_tip_usu:""},   			 		
 	   			 		distrito:{cod_dis:dis,nom_dis:""}});
 			   		 $.ajax({
-			   				url:  '	saveUsuario',
+			   				url:  'saveUsuario',
 			   				type: 'POST',
 			   			 	data: json,
 			             	processData: false,
@@ -297,10 +309,21 @@
 				})
 		})
 	}
+	
+	function cargarTipoUsuario(){
+		$.getJSON("listaTipoUsuario",{},
+		  function(response){
+			$.each(response.dataTipoUsuario,function(index,item){
+				$("#idTipoUsuario").append("<option value='"+item.cod_tip_usu+"'>"+
+							 item.nom_tip_usu+"</option>");
+				 })
+		})
+	}
 </script>
 <script>	
 	$(document).ready(function() {
 		cargarDistritos();	
+		cargarTipoUsuario();
 		tablaUsuario();
 		$('#resetBtn').click(function() {
 	        $('#id_registra').data('bootstrapValidator').resetForm(true);

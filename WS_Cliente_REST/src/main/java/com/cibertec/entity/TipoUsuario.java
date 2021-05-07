@@ -1,20 +1,23 @@
 package com.cibertec.entity;
 
-public class TipoUsuario {
-    private int codigo;
-    private String nombre;
-        
-	public int getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+import java.io.Serializable;
+
+public class TipoUsuario  implements Serializable{
+	
+    private int cod_tip_usu;
+    private String nom_tip_usu;
     
+	public int getCod_tip_usu() {
+		return cod_tip_usu;
+	}
+	public void setCod_tip_usu(int cod_tip_usu) {
+		this.cod_tip_usu = cod_tip_usu;
+	}
+	public String getNom_tip_usu() {
+		return nom_tip_usu;
+	}
+	public void setNom_tip_usu(String nom_tip_usu) {
+		this.nom_tip_usu = nom_tip_usu;
+	}    
+	
 }

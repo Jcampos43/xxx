@@ -25,16 +25,8 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="resources/css/sam.css">
     
-    <script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/bootstrapValidator.min.js" />"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/dataTables.bootstrap.min.js" />"></script>
-	
-	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap-datepicker.min.js" />"></script>
-	
-	
-	<script type="text/javascript" src="<c:url value="/resources/sweetalert/sweetalert.min.js" />"></script>
+    <link rel="stylesheet" href="resources/css/bootstrapValidator.min.css"> 
+       
   </head>
   <body>
     <div class="wrap">
@@ -80,12 +72,12 @@
 <div id="fw-container" class="fw-container">
 	<div class="container sam-lisu">
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
+ 	<ul class="nav nav-tabs" role="tablist">
     <li id="sam-login-tab" class="nav-item">
-      <a  class="nav-link active" data-toggle="tab" href="#login">INICIAR SESIÓ“N</a>
+      <a  class="nav-link active" data-toggle="tab" onclick="mostrarVentanaLogin()" href="#login">INICIAR SESIÓN</a>
     </li>
     <li class="nav-item">
-      <a id="sam-signup-tab" class="nav-link" data-toggle="tab" href="#signup">REGISTRARSE</a>
+      <a id="sam-signup-tab" class="nav-link" data-toggle="tab" onclick="mostrarVentana()" href="#signup">REGISTRARSE</a>
     </li>
   </ul>
 
@@ -96,23 +88,23 @@
   	
   	<!-- CONTENIDO TAB 1 -->
     <div id="login" class="container tab-pane active"><br>
-    	<form method="POST" id="contactForm" name="contactForm" class="contactForm">
+    	<form id="id_login" data-toggle="validator" method="post" id="contactForm" name="contactForm" class="contactForm">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group w-50">
 						<label class="label sam-form-label" for="subject">DNI</label>
-						<input type="text" class="form-control sam-form-input" name="dni" id="idDni" placeholder="Ingrese su DNI">
+						<input type="number" class="form-control sam-form-input" id="idDniLogin" name="dniLogin" placeholder="Ingrese su DNI">
 					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="form-group w-50">
 						<label class="label sam-form-label" for="subject">Clave</label>
-						<input type="password" class="form-control sam-form-input" name="password" id="idPassword" placeholder="Ingrese su Clave">
+						<input type="password" class="form-control sam-form-input" name="passwordLogin" id="idPasswordLogin" placeholder="Ingrese su Clave">
 					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
-						<input id="demo-gotomypets" type="button" value="INGRESAR" class="btn btn-primary">						
+						<input type="button" onclick="postValidarLogin()" value="INGRESAR" class="btn btn-primary">						
 						<div class="submitting"></div>
 					</div>
 				</div>
@@ -157,7 +149,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="label sam-form-label" for="subject">Tipo de Usuario</label><br>
-					<select id="idTipUsuario" name="tipousuario" class='form-control sam-form-input'>
+					<select id="idTipoUsuario" name="tipousuario" class='form-control sam-form-input'>
 							 <option value="-1" >[SELECCIONE]</option>
 					</select>
 				</div>
@@ -186,8 +178,142 @@
 </div>
 </div>
 
-<script type="text/javascript">
 
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
+   <!-- <script src="js/google-map.js"></script> -->
+  <script src="js/main.js"></script>
+  <script src="js/sam.js"></script>
+  <script src="resources/js/bootstrapValidator.min.js"></script>
+  <script src="resources/sweetalert/sweetalert.min.js"></script>
+
+ <!-- SCRIPTS NETAMENTE PARA EL FORMULARIO LOGIN --> 
+ <script type="text/javascript">
+ function postValidarLogin() {
+		var validator = $('#id_login').data('bootstrapValidator');
+	    validator.validate();
+	    if (validator.isValid()) {
+	    	iniciarSesion();
+	    }
+	}
+
+ 
+ function iniciarSesion(){
+		swal({
+			  title: "Seguro de iniciar sesión?",
+			  text: "",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willSave) => {
+			  if (willSave) {
+				    var dni, pass, json;
+				    
+					dni=$("#idDniLogin").val();
+					pass=$("#idPasswordLogin").val();
+					
+					json=JSON.stringify({
+						dni_usu:dni,
+						pass_usu:pass});
+			   		 $.ajax({
+			   				url:  'iniciarSesion',
+			   				type: 'POST',
+			   			 	data: json,
+			             	processData: false,
+			             	contentType: "application/json",
+			   				success:function(response){
+			   					console.log(response);
+			   					if(response.users){
+				   					swal("Iniciaste Sesion...","","success");
+				   					$('#id_login').data('bootstrapValidator').resetForm(true);
+				   					$('#login').modal("hide");
+				   				    //location.href="crudMascota.jsp";
+			   					}
+			   					else
+			   						swal("Error...","","error");
+			   				},
+			   				error: function (jqXhr) { // error callback
+			   					swal("Error guardando...","","error");
+			   		    	}
+			   			})
+			  } 
+			});
+		
+	}
+ function mostrarVentanaLogin(){
+		$('#id_login').trigger("reset");
+		$('#id_login').data('bootstrapValidator').resetForm(true);				
+	}
+ </script>
+<script>	
+$(document).ready(function() {
+	$('#resetBtn').click(function() {
+        $('#id_login').data('bootstrapValidator').resetForm(true);
+        $('#login').modal("hide");
+    });   
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	//validar registra nuevo empleado
+	$('#id_login').bootstrapValidator({
+	    message: 'This value is not valid',
+	    feedbackIcons: {
+	        valid: 'glyphicon glyphicon-ok',
+	        invalid: 'glyphicon glyphicon-remove',
+	        validating: 'glyphicon glyphicon-refresh'
+	    },
+	    fields: {
+	    	dniLogin: {
+	            validators: {
+	                notEmpty: {
+	                    message: 'El campo DNI es requerido. No puede estar vacio'
+	                },
+	                stringLength: {
+	                    min: 8,
+	                    max: 11,
+	                    message: 'El DNI debe contener minimo 8 y maximo de 11 letras'
+	                },
+	                regexp: {
+	                    regexp: /^[0-9]{8}$/,
+	                    message: 'El DNI sólo puede contener numeros.'
+	                }
+	            }
+	        },
+	        passwordLogin:{
+	        	validators:{
+	        		notEmpty: {
+	                    message: 'El campo Clave es requerido. No puede estar vacio'
+	                }
+	        	}
+	        }
+	        
+	        
+	
+	    }
+	});
+});
+</script> 
+   
+ <!-- SCRIPTS NETAMENTE PARA EL FORMULARIO REGISTRAR -->  
+
+<script type="text/javascript">
 function postValidarRegistra() {
 	var validator = $('#id_registra').data('bootstrapValidator');
     validator.validate();
@@ -206,25 +332,26 @@ function saveUsuario(){
 		})
 		.then((willSave) => {
 		  if (willSave) {
-			    var cod,nom,ape,dni,dis,tipUs,pass,json;
+			    var cod,nom,ape,dni,sex,dis,json;
 			    
 			    cod=$("#idCodigo").val();		
 				nom=$("#idNombre").val();
 				ape=$("#idApellido").val();
 				dni=$("#idDni").val();
-				dis=$("#idDistrito").val();
-				tipUs=$("#idTipUsuario").val();
 				pass=$("#idPassword").val();
+				tipUs=$("#idTipoUsuario").val();
+				dis=$("#idDistrito").val();
 				
 				json=JSON.stringify({
-					cod_cli: cod,
-					nom_cli:nom,
-					ape_cli:ape,
-					dni_cli:dni,
-   			 		sexo_cli:sex,	   			 		
+					cod_usu: cod,
+					nom_usu:nom,
+					ape_usu:ape,
+					dni_usu:dni,
+					pass_usu:pass,
+					tipoUsuario:{cod_tip_usu:tipUs,nom_tip_usu:""},   			 		
    			 		distrito:{cod_dis:dis,nom_dis:""}});
 		   		 $.ajax({
-		   				url:  '	saveUsuario',
+		   				url:  'saveUsuario',
 		   				type: 'POST',
 		   			 	data: json,
 		             	processData: false,
@@ -232,10 +359,10 @@ function saveUsuario(){
 		   				success:function(response){
 		   					console.log(response);
 		   					if(response.dataMensaje==1){
-			   					tablaUsuario();
 			   					swal("Registro Guardado...","","success");
 			   					$('#id_registra').data('bootstrapValidator').resetForm(true);
-			   					$('#signup').modal("hide");
+			   					$('#id_registra').modal("hide");
+			   					//location.reload();
 		   					}
 		   					else
 		   						swal("Error...","","error");
@@ -259,10 +386,18 @@ function cargarDistritos(){
 function cargarTipoUsuario(){
 	$.getJSON("listaTipoUsuario",{},
 	  function(response){
-		$.each(response.dataTipoUsuario,function(index,item){$("#idTipUsuario").append("<option value='"+item.codigo+"'>"+item.nombre+"</option>");})
+		$.each(response.dataTipoUsuario,function(index,item){$("#idTipoUsuario").append("<option value='"+item.cod_tip_usu+"'>"+item.nom_tip_usu+"</option>");})
 	})
 }
 
+function mostrarVentana(){
+	$('#id_registra').trigger("reset");
+	$('#id_registra').data('bootstrapValidator').resetForm(true);
+	$("#idCodigo").val("0");
+			
+}
+</script>	
+<script>	
 $(document).ready(function() {
 	cargarDistritos();	
 	cargarTipoUsuario();
@@ -271,9 +406,7 @@ $(document).ready(function() {
         $('#signup').modal("hide");
     });   
 });
-
-</script>	
-
+</script>
 <script type="text/javascript">
 $(document).ready(function() {
 	//validar registra nuevo empleado
@@ -314,33 +447,7 @@ $(document).ready(function() {
 	    }
 	});
 });
-</script>
-
-
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-  <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-  <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/>
-  </svg>
-  </div>
-
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.timepicker.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/sam.js"></script>
-
+</script> 
     
   </body>
 </html>
